@@ -2,6 +2,8 @@ import express from 'express';
 import router from './routes/index.js';
 import dotenv from "dotenv";
 import cors from "cors";
+import connection from "./db/database.js";
+import { generateToken, validateToken} from "./token.js";
 
 dotenv.config();
 
