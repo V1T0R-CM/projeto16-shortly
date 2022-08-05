@@ -35,8 +35,17 @@ export async function openShortUrl(req, res){
     try{
         const {rows : shortUrls} = await connection.query(`SELECT * FROM url WHERE "shortUrl" = '${req.params.shortUrl}'`);
         connection.query(`UPDATE url SET "visitCount" = "visitCount"+1 WHERE "shortUrl" = '${req.params.shortUrl}'`)
-        //connection.query(`UPDATE users SET "visitCount" = "visitCount"+1 WHERE id = '${shortUrls[0].userId}'`)
         res.redirect(shortUrls[0].fullUrl)
+    }
+    catch{
+        res.sendStatus(500)
+    }
+}
+
+export async function deleteUrlId(req, res){
+    try{
+        connection.query(`DELETE FROM url WHERE id = '${req.params.id}'`);
+        res.sendStatus(204)
     }
     catch{
         res.sendStatus(500)

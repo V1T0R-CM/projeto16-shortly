@@ -16,7 +16,7 @@ export function generateToken(user, res){
 export function validateToken(token){
     try{
         let jwtSecretKey = process.env.JWT_SECRET_KEY;
-        jwt.verify(token, jwtSecretKey);
+        jwt.verify(token, jwtSecretKey)
         return true;
     }
     catch{
