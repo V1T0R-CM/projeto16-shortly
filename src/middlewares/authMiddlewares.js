@@ -27,13 +27,13 @@ export async function registerMiddlewareValidation(req, res, next) {
 export async function loginMiddlewareValidation(req, res, next) {
     try {
         const validation = loginSchema.validate(req.body);
-        const { rows :  registro } = await connection.query(`SELECT * FROM users WHERE email = '${req.body.email}'`);
+        const { rows :  register } = await connection.query(`SELECT * FROM users WHERE email = '${req.body.email}'`);
 
         if (validation.error) {
             return res.sendStatus(422);
         }
         
-        if (!bcrypt.compareSync(req.body.password, registro[0].password)) {
+        if (!bcrypt.compareSync(req.body.password, register[0].password)) {
             return res.sendStatus(401);
         }
     }
