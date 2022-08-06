@@ -22,3 +22,19 @@ export async function getUserMe(req, res) {
         res.sendStatus(500)
     }
 }
+
+export async function getRanking(req, res){
+    try {
+        const {rows : ranking } = await connection.query(`
+        SELECT users.id as id, users.name as name, COUNT(url."userId") as "linksCount", SUM(url."visitCount") as "visitCount"
+        FROM users
+        LEFT JOIN url ON url."userId" = users.id
+        GROUP BY users.id
+        ORDER BY "visitCount"`
+        );
+    res.status(200).send(ranking.map(user => user.visitCount ? user : {...user, visitCount:0}))
+    }
+    catch {
+        res.sendStatus(500)
+    }
+}
